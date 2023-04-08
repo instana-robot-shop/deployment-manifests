@@ -43,3 +43,20 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+
+--- 
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: mongodb
+  name: mongodb
+spec:
+  ports:
+  - name: mongo
+    port: 27017
+    targetPort: 27017
+  selector:
+    service: mongodb
+

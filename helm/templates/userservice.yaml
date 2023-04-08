@@ -1,27 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: catalogue
+  name: user
   labels:
-    service: catalogue
+    service: user
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: catalogue
+      service: user
   template:
     metadata:
       labels:
-        service: catalogue
+        service: user
     spec:
       {{ if .Values.psp.enabled }}
       serviceAccountName: robot-shop
       {{ end }}
       containers:
-      - name: catalogue
-        image: {{ .Values.image.repo }}/rs-catalogue:{{ .Values.image.version }}
+      - name: user
+        image: {{ .Values.image.repo }}/rs-user:{{ .Values.image.version }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
+          # agent networking access
           - name: INSTANA_AGENT_HOST
             valueFrom:
               fieldRef:
@@ -36,15 +37,32 @@ spec:
             cpu: 100m
             memory: 50Mi
       restartPolicy: Always
-      {{- with .Values.catalogue.affinity }}
+      {{- with .Values.user.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.catalogue.nodeSelector }}
+      {{- with .Values.user.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.catalogue.tolerations }}
+      {{- with .Values.user.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+
+--- 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: user
+  labels:
+    service: user
+spec:
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+  selector:
+    service: user
+

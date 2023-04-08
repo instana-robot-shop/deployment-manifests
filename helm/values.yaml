@@ -12,12 +12,20 @@ eum:
   url: https://eum-eu-west-1.instana.io
   #url: https://eum-us-west-2.instana.io
 
+# Ingress configuration
+ingress:
+  host: myapp.example.com
+  path: /
+tls_secret_name: myapp-tls
+
 # Pod Security Policy
+# The PSP resource defines a set of rules that restrict what a pod can do. For example, it can enforce that a container must not run as root, or that it cannot mount a host directory as a volume. 
+# PSP can be associated with a particular namespace, so that any pods created in that namespace will be subject to the PSP's constraints. However, PSPs can also be used to restrict access to cluster-level resources, such as the ability to create privileged containers, across all namespaces.
 psp:
   enabled: false
 
 # For the mini ones minikube, minishift set to true
-nodeport: false
+minikube: false
 
 # "special" Openshift. Set to true when deploying to any openshift flavour
 openshift: false

@@ -2,18 +2,21 @@
 
 Use this helm chart to customise your install of Stan's Robot Shop.
 
-### Helm v2.x
+### Installing from Helm v2.x
 
 ```shell
-$ helm install --name robot-shop --namespace robot-shop .
+$ helm install --name {chart-name} --namespace {ns-name} .
 ```
 
-### Helm v3.x
+### Installing from Helm v3.x
 
 ```bash
-$ kubectl create ns robot-shop
-$ helm install robot-shop --namespace robot-shop .
+$ kubectl create ns {ns-name}
+$ helm install {chart-name} --namespace {ns-name} .
 ```
+
+## Converting Helm Charts back to K8s YAML
+https://devopslearners.com/how-to-convert-helm-chart-to-kubernetes-yaml-fbe6d6722f6
 
 ## Images
 
@@ -77,7 +80,7 @@ Combine the IP and port number to make the URL `http://192.168.66.101:32145`
 Openshift is like K8s but not K8s. Set `openshift` to true or things will break. See the notes and scripts in the OpenShift directory of this repo.
 
 ```shell
-$ helm install robot-shop --set openshift=true helm
+$ helm install {chart-name} --set openshift=true helm
 ```
 
 ## Deployment Parameters
