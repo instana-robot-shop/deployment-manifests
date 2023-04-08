@@ -1,3 +1,22 @@
+# Deploy to K8s - Local Machine/Minikube
+```
+Install prerequisites
+    minikube
+    kubectl 
+    helm 
+
+Create and publish helm chart to artifacthub
+    cd {path-helm-chart}
+    helm create {chart-name}
+    helm package {chart-path}
+
+Run on dev environment (minikube)
+    minikube start 
+    helm install {chart-path} --values values-dev.yaml
+    kubectl port forward service/web 8080:8080# we did port forward since our frontend is running on nodeport, note that we only use nodeport to forward traffic if the cluster is running on our local machine
+    # go to browser, type: http://localhost:8080
+```
+
 # Instana Agent Install
 
 The easiest way to install the Instana agent is with the helm [chart](https://hub.helm.sh/charts/stable/instana-agent). If you really want to do it by hand, template descriptors are available in the official [documentation](https://docs.instana.io/ecosystem/kubernetes/).
@@ -40,3 +59,6 @@ $ kubectl -n istio-system get svc istio-ingressgateway
 The above will display the IP address of the Istio gateway.
 
 **NOTE** The Instana agent only works with later versions of Istio.
+
+
+
